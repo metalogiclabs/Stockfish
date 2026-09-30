@@ -599,7 +599,9 @@ bool Search::Worker::iterative_deepening() {
             double highBestMoveEffort = std::clamp(
               interpolate(i64(nodesEffort), i64(75800), i64(104510), 0.969, 0.714), 0.693, 0.838);
 
-            // Crystal V63 compiled clock-band candidate.
+            // Crystal V63: compiled candidate from V56/V58/V60/V62 residual join.
+            // Preserve the proven fast-clock region, exclude the candidate harmful
+            // 17..32 ms band, and retain the candidate useful 33..64 ms band.
             const auto crystalOptimum = mainThread->tm.optimum();
             if (crystalOptimum <= 16 || (crystalOptimum >= 33 && crystalOptimum <= 64))
                 highBestMoveEffort = 1.0;
