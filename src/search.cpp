@@ -599,6 +599,11 @@ bool Search::Worker::iterative_deepening() {
             double highBestMoveEffort = std::clamp(
               interpolate(i64(nodesEffort), i64(75800), i64(104510), 0.969, 0.714), 0.693, 0.838);
 
+            // Crystal V63 compiled clock-band candidate.
+            const auto crystalOptimum = mainThread->tm.optimum();
+            if (crystalOptimum <= 16 || (crystalOptimum >= 33 && crystalOptimum <= 64))
+                highBestMoveEffort = 1.0;
+
             double totalTime = mainThread->tm.optimum() * fallingEval * reduction
                              * bestMoveInstability * highBestMoveEffort;
 
